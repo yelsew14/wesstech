@@ -296,19 +296,41 @@ export default function WessTech() {
       </div>
 
       {/* ── FOOTER ── */}
-      <div style={{ background:'#030711', borderTop:'1px solid #1e2d47', padding:'24px 24px' }}>
-        <div style={{ maxWidth:1200, margin:'0 auto', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12 }}>
-          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-            <div style={{ width:22, height:22, background:'linear-gradient(135deg,#2563eb,#7c3aed)', borderRadius:5, display:'flex', alignItems:'center', justifyContent:'center', fontSize:11 }}>⚡</div>
-            <span className="sy" style={{ color:'#374151', fontSize:14, fontWeight:700 }}>WessTech</span>
+      <div style={{ background:'#030711', borderTop:'1px solid #1e2d47', padding:'32px 24px' }}>
+        <div style={{ maxWidth:1200, margin:'0 auto' }}>
+          <div style={{ display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:24, marginBottom:24 }}>
+            <div>
+              <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
+                <div style={{ width:28, height:28, background:'linear-gradient(135deg,#2563eb,#7c3aed)', borderRadius:7, display:'flex', alignItems:'center', justifyContent:'center', fontSize:14 }}>⚡</div>
+                <span className="sy" style={{ color:'#f8fafc', fontSize:16, fontWeight:800 }}>WessTech</span>
+              </div>
+              <p className="sg" style={{ color:'#6b7280', fontSize:12.5, maxWidth:300, lineHeight:1.7 }}>
+                AI and technology news for New Zealand and the world — curated daily. Also home to PathwayNZ, a free guide for Filipino migrants in New Zealand.
+              </p>
+            </div>
+            <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+              <div className="sg" style={{ color:'#374151', fontSize:11, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:4 }}>Pages</div>
+              {[
+                { label:'About WessTech', url:'/about' },
+                { label:'Privacy Policy', url:'/privacy' },
+                { label:'PathwayNZ — Filipino NZ Guide', url:'https://pathway.wesstech.xyz' },
+              ].map((l,i) => (
+                <a key={i} href={l.url} style={{ color:'#6b7280', fontSize:13, fontFamily:"'Space Grotesk',sans-serif" }}
+                  target={l.url.startsWith('http') ? '_blank' : '_self'}
+                  rel={l.url.startsWith('http') ? 'noopener noreferrer' : undefined}>
+                  {l.label} →
+                </a>
+              ))}
+            </div>
           </div>
-          <p className="sg" style={{ color:'#1e2d47', fontSize:11 }}>
-            © {new Date().getFullYear()} wesstech.xyz · AI & Tech News NZ · <a href="/privacy" style={{ color:'#374151' }}>Privacy Policy</a>
-          </p>
-          <div style={{ display:'flex', gap:12 }}>
-            {['NZ Tech','AI News','Cybersecurity','Tech Jobs'].map(t => (
-              <span key={t} className="sg" style={{ color:'#1e2d47', fontSize:11 }}>{t}</span>
-            ))}
+          <div style={{ borderTop:'1px solid #1e2d47', paddingTop:16, display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:8 }}>
+            <p className="sg" style={{ color:'#374151', fontSize:12 }}>
+              © {new Date().getFullYear()} WessTech · wesstech.xyz · Built in New Zealand
+            </p>
+            <div style={{ display:'flex', gap:16 }}>
+              <a href="/about" className="sg" style={{ color:'#4b5563', fontSize:12 }}>About</a>
+              <a href="/privacy" className="sg" style={{ color:'#4b5563', fontSize:12 }}>Privacy Policy</a>
+            </div>
           </div>
         </div>
       </div>
