@@ -1,7 +1,7 @@
 {
-  "name": "pathwaynz",
-  "version": "1.0.0",
-  "description": "PathwayNZ - Filipino Guide to New Zealand",
+  "name": "wesstech",
+  "version": "2.0.0",
+  "description": "WessTech - Live AI & Tech News NZ and Worldwide via RSS feeds",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,8 +9,11 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "14.2.3",
+    "next": "latest",
     "react": "^18",
     "react-dom": "^18"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }
