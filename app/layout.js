@@ -1,10 +1,10 @@
 export const metadata = {
-  title: 'WessTech – AI & Tech News NZ and Worldwide',
-  description: 'Live AI and technology news for New Zealand and the world — pulled from RSS feeds, refreshed every hour. NZ tech, AI, cybersecurity, startups, and tech jobs.',
-  keywords: 'AI news New Zealand, NZ tech news, artificial intelligence NZ, cybersecurity NZ, tech startups NZ, tech jobs NZ, CERT NZ',
+  title: 'WessTech – Original AI, Networking & Cybersecurity Guides',
+  description: 'Original technology guides for AI, networking, cybersecurity, automation, and cloud, supported by curated New Zealand and global technology news.',
+  keywords: 'AI guides, network engineering, cybersecurity NZ, technology guides New Zealand, automation, cloud networking, NZ tech news',
   openGraph: {
-    title: 'WessTech – AI & Tech News',
-    description: 'Live NZ and global AI & technology news — updated every hour from real RSS feeds.',
+    title: 'WessTech – Original Technology Guides',
+    description: 'Practical AI, networking, cybersecurity, cloud, and automation guides supported by curated technology news.',
     url: 'https://wesstech.xyz',
     siteName: 'WessTech',
     locale: 'en_NZ',

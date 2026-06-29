@@ -1,6 +1,6 @@
 // app/page.js
 // This is a SERVER COMPONENT — runs on Vercel's server, not in the browser
-// Fetches RSS feeds server-side, passes articles to the client component
+// Fetches curated RSS feeds server-side, passes articles to the client component
 // revalidate: 3600 = Vercel re-fetches feeds every 60 minutes automatically
 
 import { fetchAllFeeds } from '../lib/fetchFeeds'
@@ -10,12 +10,12 @@ import WessTech from '../components/WessTech'
 export const revalidate = 3600
 
 export const metadata = {
-  title: 'WessTech – AI & Tech News NZ and Worldwide',
-  description: 'The latest AI news, New Zealand tech, product launches, startups, cybersecurity, and tech jobs — live RSS feeds updated every hour.',
-  keywords: 'AI news New Zealand, NZ tech news, artificial intelligence, cybersecurity NZ, tech startups NZ, tech jobs NZ',
+  title: 'WessTech – Original Technology Guides & Curated Tech News',
+  description: 'Original WessTech guides about AI, networking, cybersecurity, automation, and cloud, supported by curated New Zealand and global technology news.',
+  keywords: 'AI guides New Zealand, network engineering, cybersecurity NZ, automation, cloud networking, NZ tech news',
   openGraph: {
-    title: 'WessTech – AI & Tech News',
-    description: 'NZ and global AI & technology news — live, updated every hour.',
+    title: 'WessTech – Original Technology Guides',
+    description: 'Practical technology guides supported by curated New Zealand and global technology news.',
     url: 'https://wesstech.xyz',
     siteName: 'WessTech',
     locale: 'en_NZ',

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { articles as originalArticles } from "../lib/articles";
 
 const CATEGORIES = [
   { id: "all", label: "All News", icon: "⚡" },
@@ -54,6 +55,7 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
   const [saved, setSaved] = useState([]);
   const [search, setSearch] = useState("");
   const [showSaved, setShowSaved] = useState(false);
+  const featuredGuide = originalArticles[0];
 
   const filtered = articles.filter((n) => {
     const matchCat = showSaved
@@ -103,6 +105,8 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
         .card{background:#0d1424;border:1px solid #1e2d47;border-radius:14px;transition:all .2s}
         .card:hover{border-color:#2563eb44;background:#111827;transform:translateY(-2px);box-shadow:0 8px 32px rgba(37,99,235,.12)}
         .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+        .featured-guide{display:grid;grid-template-columns:minmax(0,1fr) auto}
+        @media(max-width:640px){.grid{grid-template-columns:1fr}.featured-guide{grid-template-columns:1fr}.featured-guide a{width:100%;text-align:center}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
         @keyframes spin{to{transform:rotate(360deg)}}
@@ -305,8 +309,7 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
                 textTransform: "uppercase",
               }}
             >
-              Practical technology insights · {articles.length} articles ·
-              Updates every hour
+              Original guides · Curated technology news · Updated hourly
             </span>
           </div>
           <h1
@@ -319,7 +322,7 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
               letterSpacing: "-.03em",
             }}
           >
-            AI & Tech News
+            Practical Technology Guides
             <br />
             <span
               style={{
@@ -328,7 +331,7 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              NZ & Worldwide
+              for Real-World Teams
             </span>
           </h1>
           <p
@@ -340,9 +343,9 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
               lineHeight: 1.7,
             }}
           >
-            Live news from NZ Herald, RNZ, TechCrunch, The Verge, Wired, CERT NZ
-            and more — pulled directly from RSS feeds and refreshed every hour
-            automatically.
+            WessTech publishes original guides on AI, networking,
+            cybersecurity, cloud, and automation, supported by curated
+            technology news from trusted New Zealand and global sources.
           </p>
 
           {/* Feed error banner */}
@@ -363,6 +366,135 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
             </div>
           )}
         </div>
+
+        {/* ── FEATURED GUIDE ── */}
+        {!showSaved && search === "" && featuredGuide && (
+          <section style={{ marginBottom: 32 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 16,
+                marginBottom: 14,
+              }}
+            >
+              <div>
+                <div
+                  className="sg"
+                  style={{
+                    color: "#2563eb",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: ".12em",
+                    textTransform: "uppercase",
+                    marginBottom: 5,
+                  }}
+                >
+                  Featured Guide
+                </div>
+                <h2
+                  className="sy"
+                  style={{
+                    fontSize: 24,
+                    fontWeight: 800,
+                    color: "#f1f5f9",
+                    letterSpacing: "-.02em",
+                  }}
+                >
+                  Original WessTech Analysis
+                </h2>
+              </div>
+              <a
+                href="/articles"
+                className="sg"
+                style={{ color: "#6b7280", fontSize: 13, fontWeight: 600 }}
+              >
+                View all guides →
+              </a>
+            </div>
+
+            <article
+              className="card featured-guide"
+              style={{
+                padding: "24px 24px",
+                borderLeft: "4px solid #2563eb",
+                gap: 20,
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 8,
+                    alignItems: "center",
+                    marginBottom: 12,
+                  }}
+                >
+                  <span
+                    className="sg"
+                    style={{
+                      background: "#ede9fe",
+                      color: "#6d28d9",
+                      borderRadius: 5,
+                      padding: "3px 9px",
+                      fontSize: 10.5,
+                      fontWeight: 700,
+                    }}
+                  >
+                    {featuredGuide.category}
+                  </span>
+                  <span
+                    className="sg"
+                    style={{ color: "#374151", fontSize: 12 }}
+                  >
+                    {featuredGuide.readTime} · Updated {featuredGuide.updated}
+                  </span>
+                </div>
+                <h3
+                  className="sy"
+                  style={{
+                    color: "#f8fafc",
+                    fontSize: "clamp(22px,3vw,32px)",
+                    lineHeight: 1.2,
+                    letterSpacing: "-.02em",
+                    marginBottom: 10,
+                  }}
+                >
+                  {featuredGuide.title}
+                </h3>
+                <p
+                  className="sg"
+                  style={{
+                    color: "#94a3b8",
+                    fontSize: 14.5,
+                    lineHeight: 1.75,
+                    maxWidth: 760,
+                  }}
+                >
+                  {featuredGuide.excerpt}
+                </p>
+              </div>
+              <a
+                href={`/articles/${featuredGuide.slug}`}
+                className="sg"
+                style={{
+                  background: "#2563eb",
+                  color: "#fff",
+                  borderRadius: 9,
+                  padding: "11px 16px",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Read Article →
+              </a>
+            </article>
+          </section>
+        )}
 
         {/* ── HOT STORIES ── */}
         {!showSaved && search === "" && hot.length > 0 && (
@@ -395,7 +527,7 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
                 </span>
               </div>
               <span className="sg" style={{ color: "#6b7280", fontSize: 12 }}>
-                Latest stories from the last 3 hours
+                Curated technology stories from the last 3 hours
               </span>
             </div>
             <div
@@ -528,7 +660,7 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
           })}
         </div>
 
-        {/* ── NEWS GRID ── */}
+        {/* ── CURATED NEWS GRID ── */}
         {filtered.length === 0 ? (
           <div
             style={{ textAlign: "center", padding: "60px 0", color: "#374151" }}
@@ -669,7 +801,7 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
           </div>
         )}
 
-        {/* ── HOW IT WORKS ── */}
+        {/* ── HOW CURATED NEWS WORKS ── */}
         {!showSaved && search === "" && (
           <div
             style={{
@@ -701,18 +833,17 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
                 className="sg"
                 style={{ color: "#6b7280", fontSize: 12, fontWeight: 600 }}
               >
-                How live feeds work
+                How curated news works
               </span>
             </div>
             <p
               className="sg"
               style={{ color: "#4b5563", fontSize: 12.5, lineHeight: 1.7 }}
             >
-              WessTech pulls directly from RSS feeds published by{" "}
-              {NEWS_SOURCES.length} news sources. Vercel's server fetches and
-              caches the feeds every hour — so you always see real, current news
-              without page reloads. Articles link directly to the original
-              publisher.
+              WessTech publishes original guides first, then supports them with
+              current technology headlines from {NEWS_SOURCES.length} trusted
+              sources. The news feed is refreshed hourly and every curated story
+              links directly to its original publisher.
             </p>
           </div>
         )}
@@ -735,7 +866,7 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
               letterSpacing: "-.02em",
             }}
           >
-            Live Sources
+            News Sources
           </h2>
           <div
             style={{
@@ -918,9 +1049,10 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
                   lineHeight: 1.7,
                 }}
               >
-                Live AI and technology news for New Zealand and the world —
-                pulled from RSS feeds, refreshed every hour. Also home to
-                PathwayNZ, a free guide for Filipino migrants in New Zealand.
+                WessTech publishes original guides on AI, networking,
+                cybersecurity, cloud, and automation, supported by curated
+                technology news from New Zealand and around the world. Also home
+                to PathwayNZ, a free guide for Filipino migrants in New Zealand.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -937,6 +1069,7 @@ export default function WessTech({ articles = [], fetchedAt, feedError }) {
                 Pages
               </div>
               {[
+                { label: "Original Guides", url: "/articles" },
                 { label: "About WessTech", url: "/about" },
                 { label: "Author", url: "/author/wesley-reyes" },
                 { label: "Contact", url: "/contact" },
