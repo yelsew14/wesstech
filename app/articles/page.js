@@ -1,4 +1,4 @@
-import { articles } from "../../lib/articles";
+import { getAllArticles } from "../../lib/articles";
 
 export const metadata = {
   title: "Original Technology Guides | WessTech",
@@ -7,6 +7,8 @@ export const metadata = {
 };
 
 export default function ArticlesPage() {
+  const articles = getAllArticles();
+
   return (
     <main
       style={{

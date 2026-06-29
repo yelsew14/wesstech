@@ -1,8 +1,9 @@
-import { articles, getArticleBySlug } from "../../../lib/articles";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { getAllArticles, getArticleBySlug } from "../../../lib/articles";
 import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
-  return articles.map((article) => ({
+  return getAllArticles().map((article) => ({
     slug: article.slug,
   }));
 }
@@ -55,6 +56,9 @@ export default async function ArticlePage({ params }) {
         .sy{font-family:'Syne',sans-serif}
         a{color:inherit;text-decoration:none}
         .article-link:hover{text-decoration:underline}
+        .article-body h2{font-family:'Syne',sans-serif;color:#f1f5f9;font-size:28px;line-height:1.3;margin:0 0 14px;scroll-margin-top:78px}
+        .article-body p{color:#cbd5e1;font-size:16px;line-height:1.9;margin:0 0 18px}
+        .article-body section{margin-bottom:34px}
       `}</style>
       <article
         style={{ maxWidth: 860, margin: "0 auto", padding: "60px 24px 90px" }}
@@ -153,39 +157,22 @@ export default async function ArticlePage({ params }) {
           </ol>
         </aside>
 
-        {article.sections.map((section) => (
-          <section
-            id={section.id}
-            key={section.id}
-            style={{ marginBottom: 34, scrollMarginTop: 78 }}
-          >
-            <h2
-              className="sy"
-              style={{
-                color: "#f1f5f9",
-                fontSize: 28,
-                lineHeight: 1.3,
-                marginBottom: 14,
-              }}
-            >
-              {section.heading}
-            </h2>
+        <div className="article-body">
+          <MDXRemote
+            source={article.content}
+            components={{
+              h2: (props) => {
+                const id = String(props.children || "")
+                  .toLowerCase()
+                  .replace(/[^a-z0-9\s-]/g, "")
+                  .trim()
+                  .replace(/\s+/g, "-");
 
-            {section.body.map((paragraph, index) => (
-              <p
-                key={index}
-                style={{
-                  color: "#cbd5e1",
-                  fontSize: 16,
-                  lineHeight: 1.9,
-                  marginBottom: 18,
-                }}
-              >
-                {paragraph}
-              </p>
-            ))}
-          </section>
-        ))}
+                return <h2 id={id} {...props} />;
+              },
+            }}
+          />
+        </div>
 
         <div
           style={{

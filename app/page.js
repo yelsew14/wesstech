@@ -4,6 +4,7 @@
 // revalidate: 3600 = Vercel re-fetches feeds every 60 minutes automatically
 
 import { fetchAllFeeds } from '../lib/fetchFeeds'
+import { getAllArticles } from '../lib/articles'
 import WessTech from '../components/WessTech'
 
 // Tell Next.js to revalidate this page every hour
@@ -26,6 +27,7 @@ export const metadata = {
 export default async function Home() {
   // Fetch all RSS feeds server-side
   let articles = []
+  const [featuredGuide] = getAllArticles()
   let fetchedAt = new Date().toISOString()
   let feedError = false
 
@@ -41,6 +43,7 @@ export default async function Home() {
       articles={articles}
       fetchedAt={fetchedAt}
       feedError={feedError}
+      featuredGuide={featuredGuide}
     />
   )
 }

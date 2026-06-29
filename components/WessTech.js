@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { articles as originalArticles } from "../lib/articles";
 
 const CATEGORIES = [
   { id: "all", label: "All News", icon: "⚡" },
@@ -50,12 +49,16 @@ const NEWS_SOURCES = [
   { name: "CERT NZ", url: "https://www.cert.govt.nz", flag: "🔐" },
 ];
 
-export default function WessTech({ articles = [], fetchedAt, feedError }) {
+export default function WessTech({
+  articles = [],
+  fetchedAt,
+  feedError,
+  featuredGuide,
+}) {
   const [activecat, setActivecat] = useState("all");
   const [saved, setSaved] = useState([]);
   const [search, setSearch] = useState("");
   const [showSaved, setShowSaved] = useState(false);
-  const featuredGuide = originalArticles[0];
 
   const filtered = articles.filter((n) => {
     const matchCat = showSaved
