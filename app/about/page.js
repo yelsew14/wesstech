@@ -35,18 +35,18 @@ export default function About() {
             About WessTech
           </h1>
           <p className="sg" style={{ color: '#94a3b8', fontSize: 16, lineHeight: 1.8, maxWidth: 600 }}>
-            WessTech is a New Zealand-based technology news and resource platform, covering artificial intelligence, New Zealand tech, product launches, startups, cybersecurity, and technology employment in New Zealand and globally.
+            WessTech is a New Zealand-based technology publication focused on original practical guides for artificial intelligence, networking, cybersecurity, automation, cloud, and the technology work shaping New Zealand and the world.
           </p>
         </div>
 
         {/* What we do */}
         <div style={{ background: '#0d1424', border: '1px solid #1e2d47', borderRadius: 16, padding: '32px 28px', marginBottom: 24 }}>
-          <h2 className="sy" style={{ fontSize: 24, fontWeight: 800, color: '#f1f5f9', marginBottom: 16, letterSpacing: '-.01em' }}>What WessTech Does</h2>
+          <h2 className="sy" style={{ fontSize: 24, fontWeight: 800, color: '#f1f5f9', marginBottom: 16, letterSpacing: '-.01em' }}>What WessTech Publishes</h2>
           <p className="sg" style={{ color: '#94a3b8', fontSize: 14.5, lineHeight: 1.9, marginBottom: 16 }}>
-            WessTech curates and publishes technology news from New Zealand and around the world. Our editorial focus covers six key areas: New Zealand technology developments, artificial intelligence news and research, technology product launches, startup funding and growth, cybersecurity threats and advisories, and technology employment opportunities in New Zealand.
+            WessTech publishes original technology guides, explainers, and practical analysis for readers who want useful detail rather than headlines alone. Our editorial focus covers artificial intelligence, network engineering, cybersecurity, automation, cloud infrastructure, New Zealand technology developments, startups, and technology employment.
           </p>
           <p className="sg" style={{ color: '#94a3b8', fontSize: 14.5, lineHeight: 1.9 }}>
-            We source stories from reputable New Zealand and international publishers including the NZ Herald, RNZ, Stuff, Computerworld NZ, TechCrunch, The Verge, Wired, MIT Technology Review, CERT NZ, and Seek NZ. Our goal is to make technology news accessible, relevant, and easy to navigate for New Zealand readers.
+            Original WessTech articles are supported by curated links to reputable New Zealand and international publishers including the NZ Herald, RNZ, Stuff, Computerworld NZ, TechCrunch, The Verge, Wired, MIT Technology Review, CERT NZ, and Seek NZ. Our goal is to combine durable guidance with timely context for New Zealand readers.
           </p>
         </div>
 
@@ -54,10 +54,10 @@ export default function About() {
         <div style={{ background: '#0d1424', border: '1px solid #1e2d47', borderLeft: '4px solid #2563eb', borderRadius: 16, padding: '32px 28px', marginBottom: 24 }}>
           <h2 className="sy" style={{ fontSize: 24, fontWeight: 800, color: '#f1f5f9', marginBottom: 16, letterSpacing: '-.01em' }}>Our Mission</h2>
           <p className="sg" style={{ color: '#94a3b8', fontSize: 14.5, lineHeight: 1.9, marginBottom: 16 }}>
-            New Zealand has a thriving and growing technology sector, but technology news relevant to New Zealanders is often scattered across dozens of different sources. WessTech brings it together in one place — covering everything from Auckland startup funding rounds and government digital initiatives to global AI breakthroughs that will shape New Zealand's economic future.
+            New Zealand has a thriving and growing technology sector, but practical technology guidance relevant to New Zealanders is often scattered, overly generic, or locked inside vendor documentation. WessTech aims to publish clear, original guides that help readers understand the tools, risks, and infrastructure decisions behind modern technology.
           </p>
           <p className="sg" style={{ color: '#94a3b8', fontSize: 14.5, lineHeight: 1.9 }}>
-            We also pay particular attention to cybersecurity advisories from CERT NZ, because New Zealand businesses and individuals deserve clear, timely warnings about digital threats. And we track technology employment because New Zealand's tech workforce is one of the fastest-growing sectors in the country.
+            We also curate important technology news and cybersecurity advisories from trusted sources, because New Zealand businesses and individuals deserve timely context about digital threats, product changes, policy decisions, and the technology job market.
           </p>
         </div>
 
@@ -66,9 +66,9 @@ export default function About() {
           <h2 className="sy" style={{ fontSize: 24, fontWeight: 800, color: '#f1f5f9', marginBottom: 20, letterSpacing: '-.01em' }}>What We Cover</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 14 }}>
             {[
-              { icon: '🥝', title: 'NZ Tech News', color: '#22c55e', desc: 'Local technology developments, government digital policy, New Zealand startup news, and innovations from Kiwi companies across all industries.' },
-              { icon: '🤖', title: 'AI & Artificial Intelligence', color: '#7c3aed', desc: 'Breakthroughs in AI research, new model releases, AI applications in business, and the implications of artificial intelligence for New Zealand workers and organisations.' },
-              { icon: '📦', title: 'Product Launches', color: '#2563eb', desc: 'New hardware, software, and consumer technology products from major global companies, with relevance to New Zealand consumers and businesses.' },
+              { icon: '🥝', title: 'NZ Tech Context', color: '#22c55e', desc: 'Original context around local technology developments, government digital policy, New Zealand startup news, and innovations from Kiwi companies.' },
+              { icon: '🤖', title: 'AI & Artificial Intelligence', color: '#7c3aed', desc: 'Practical AI guides, model updates, workflow ideas, and implications for New Zealand workers, engineers, and organisations.' },
+              { icon: '📦', title: 'Products & Platforms', color: '#2563eb', desc: 'Useful coverage of hardware, software, cloud, and consumer technology products with relevance to New Zealand readers and businesses.' },
               { icon: '🚀', title: 'Startups & Funding', color: '#f59e0b', desc: 'Venture capital investment, startup funding rounds in New Zealand and globally, founder stories, and the growth of the innovation economy.' },
               { icon: '🔐', title: 'Cybersecurity', color: '#ef4444', desc: 'Security advisories from CERT NZ, ransomware and phishing threats, data breaches, and guidance on protecting New Zealand businesses and individuals online.' },
               { icon: '💼', title: 'Tech Jobs NZ', color: '#06b6d4', desc: 'Technology employment news, job market trends, in-demand skills, and opportunities for technology professionals across New Zealand.' },
@@ -98,9 +98,9 @@ export default function About() {
 
         {/* Sources */}
         <div style={{ background: '#0d1424', border: '1px solid #1e2d47', borderRadius: 16, padding: '32px 28px', marginBottom: 24 }}>
-          <h2 className="sy" style={{ fontSize: 24, fontWeight: 800, color: '#f1f5f9', marginBottom: 16, letterSpacing: '-.01em' }}>Our Sources</h2>
+          <h2 className="sy" style={{ fontSize: 24, fontWeight: 800, color: '#f1f5f9', marginBottom: 16, letterSpacing: '-.01em' }}>Curated News Sources</h2>
           <p className="sg" style={{ color: '#94a3b8', fontSize: 14.5, lineHeight: 1.9, marginBottom: 16 }}>
-            WessTech links to original news articles published by reputable technology media and news organisations. We do not reproduce full articles. All stories link directly to the original publisher. Our sources include:
+            Alongside original WessTech guides, we link to original news articles published by reputable technology media and news organisations. We do not reproduce full articles. Curated stories link directly to the original publisher. Our sources include:
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 8 }}>
             {[

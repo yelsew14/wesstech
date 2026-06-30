@@ -52,7 +52,7 @@ export default function PrivacyPolicy() {
             color: '#2563eb',
             content: (
               <>
-                <P>WessTech is a static news aggregation website. We do <Strong>not</Strong> collect personal information such as your name, email address, or contact details directly.</P>
+                <P>WessTech is a technology publication with original guides and curated technology news links. We do <Strong>not</Strong> collect personal information such as your name, email address, or contact details directly.</P>
                 <P>We may collect anonymous, non-identifiable usage data through third-party analytics and advertising services to help us understand how visitors use the site and improve our content.</P>
               </>
             )
@@ -113,7 +113,7 @@ export default function PrivacyPolicy() {
             color: '#16a34a',
             content: (
               <>
-                <P>WessTech is a news aggregator — the majority of content links to external websites including news publishers, government sites, job boards, and community resources.</P>
+                <P>WessTech publishes original guides and also curates links to external websites including news publishers, government sites, job boards, and community resources.</P>
                 <P>We are <Strong>not responsible</Strong> for the privacy practices or content of those external sites. We encourage you to read the privacy policy of any site you visit through our links.</P>
               </>
             )
