@@ -243,6 +243,22 @@ export default function WessTech({
               flexShrink: 0,
             }}
           >
+            <a
+              href="/games/cyberwordle"
+              className="sg"
+              style={{
+                padding: "6px 12px",
+                borderRadius: 8,
+                fontSize: 12,
+                fontWeight: 700,
+                background: "#0d1424",
+                color: "#93c5fd",
+                border: "1px solid #1e2d47",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Cyber Wordle
+            </a>
             {/* Live indicator */}
             <div
               style={{
