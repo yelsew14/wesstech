@@ -90,8 +90,10 @@ export default function WessTech({
     ? new Date(fetchedAt).toLocaleTimeString("en-NZ", {
         hour: "2-digit",
         minute: "2-digit",
+        timeZoneName: "short",
       })
     : "";
+  const updatedLabel = lastUpdated ? `Updated ${lastUpdated}` : "Update time unavailable";
 
   return (
     <div
@@ -120,10 +122,13 @@ export default function WessTech({
         .wt-nav{background:#030711;border-bottom:1px solid #1e2d47;padding:0 24px;position:sticky;top:0;z-index:100}
         .wt-nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;min-height:58px;gap:16px}
         .wt-brand{display:flex;align-items:center;gap:10px;min-height:44px;flex-shrink:0}
+        .wt-mark{width:32px;height:32px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+        .wt-logo{color:#f8fafc;font-size:18px;font-weight:800;line-height:1;letter-spacing:-.02em}
         .wt-search{flex:1;max-width:380px;position:relative}
         .wt-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
         .wt-action-link,.wt-saved-btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
         .wt-live-pill{display:flex;align-items:center;gap:6px;min-height:36px}
+        .wt-mobile-text,.wt-mobile-featured{display:none}
         .wt-categories{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:26px;scrollbar-width:thin}
         .wt-category-btn{min-height:44px}
         .wt-news-card{overflow:hidden}
@@ -144,12 +149,29 @@ export default function WessTech({
         }
         @media(max-width:640px){
           .wt-container{padding:0 16px 52px!important}
-          .wt-nav{padding:8px 14px!important}
-          .wt-nav-inner{grid-template-columns:1fr!important}
+          .wt-nav{padding:10px 14px 12px!important}
+          .wt-nav-inner{grid-template-columns:1fr!important;gap:9px!important}
+          .wt-brand{min-height:34px!important;gap:8px!important;justify-content:flex-start}
+          .wt-mark{width:24px!important;height:24px!important;border-radius:6px!important;font-size:12px!important}
+          .wt-logo{font-size:14px!important}
           .wt-brand-subtitle{display:none}
-          .wt-actions{width:100%;display:grid!important;grid-template-columns:1fr 1fr;gap:8px!important}
-          .wt-live-pill{grid-column:1/-1;justify-content:center;padding:8px 12px!important}
-          .wt-action-link,.wt-saved-btn{width:100%;padding:10px 12px!important}
+          .wt-search{width:100%;max-width:none!important}
+          .wt-search input{min-height:48px!important;border-radius:12px!important;padding:12px 14px 12px 40px!important;font-size:14px!important;background:#0d1424!important}
+          .wt-search span{left:14px!important;color:#94a3b8!important}
+          .wt-mobile-featured{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:64px;background:linear-gradient(135deg,rgba(37,99,235,.14),rgba(13,20,36,.98));border:1px solid #243653;border-radius:12px;padding:12px 14px}
+          .wt-mobile-featured-title{color:#f8fafc;font-size:13px;font-weight:800;line-height:1.25}
+          .wt-mobile-featured-meta{color:#94a3b8;font-size:11px;font-weight:700;margin-top:3px}
+          .wt-mobile-featured-cta{color:#bfdbfe;font-size:12px;font-weight:800;white-space:nowrap}
+          .wt-actions{width:100%;display:grid!important;grid-template-columns:1fr;gap:8px!important}
+          .wt-live-pill,.wt-action-link,.wt-saved-btn{width:100%;min-height:58px!important;border-radius:12px!important;padding:12px 14px!important;justify-content:flex-start!important;text-align:left!important}
+          .wt-live-pill{grid-column:auto;display:grid!important;grid-template-columns:1fr;row-gap:3px;align-items:center;background:#0d1424!important}
+          .wt-action-link,.wt-saved-btn{display:flex!important;flex-direction:column;align-items:flex-start!important;gap:3px!important;background:#0d1424!important;border-color:#243653!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+          .wt-saved-btn{color:#e2e8f0!important}
+          .wt-desktop-text{display:none}
+          .wt-mobile-text{display:block}
+          .wt-card-title{color:#f8fafc;font-size:14px;font-weight:800;line-height:1.15}
+          .wt-card-subtitle{color:#94a3b8;font-size:12px;font-weight:700;line-height:1.2}
+          .wt-live-dot{display:none!important}
           .grid,.original-grid{grid-template-columns:1fr!important}
           .featured-guide{grid-template-columns:1fr!important;padding:24px 18px!important;gap:22px!important}
           .featured-guide a{width:100%;text-align:center}
@@ -160,14 +182,12 @@ export default function WessTech({
         @media(max-width:380px){
           .wt-container{padding-left:12px!important;padding-right:12px!important}
           .wt-nav{padding-left:10px!important;padding-right:10px!important}
-          .wt-actions{grid-template-columns:1fr!important}
-          .wt-live-pill{grid-column:auto}
         }
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
         @keyframes spin{to{transform:rotate(360deg)}}
         .fi{animation:fadeUp .4s ease forwards}
-        input::placeholder{color:#374151}
+        input::placeholder{color:#748199}
         input:focus{outline:none}
         ::-webkit-scrollbar{width:4px;height:4px}
         ::-webkit-scrollbar-track{background:#060a14}
@@ -211,6 +231,7 @@ export default function WessTech({
             }}
           >
             <div
+              className="wt-mark"
               style={{
                 width: 32,
                 height: 32,
@@ -226,7 +247,7 @@ export default function WessTech({
             </div>
             <div>
               <div
-                className="sy"
+                className="sy wt-logo"
                 style={{
                   color: "#f8fafc",
                   fontSize: 18,
@@ -270,7 +291,7 @@ export default function WessTech({
               aria-label="Search guides and technology news"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search guides and tech news..."
+              placeholder="Search articles, AI, cybersecurity..."
               className="sg"
               style={{
                 width: "100%",
@@ -283,6 +304,24 @@ export default function WessTech({
               }}
             />
           </div>
+
+          {!showSaved && search === "" && featuredGuide && (
+            <Link
+              className="wt-mobile-featured"
+              href={`/articles/${featuredGuide.slug}`}
+              aria-label={`Featured guide: ${featuredGuide.title}`}
+            >
+              <span>
+                <span className="wt-mobile-featured-title line-clamp-2">
+                  {featuredGuide.title}
+                </span>
+                <span className="wt-mobile-featured-meta">
+                  Featured Guide · {featuredGuide.readTime}
+                </span>
+              </span>
+              <span className="wt-mobile-featured-cta">Read →</span>
+            </Link>
+          )}
 
           <div
             className="wt-actions"
@@ -307,11 +346,14 @@ export default function WessTech({
                 whiteSpace: "nowrap",
               }}
             >
-              Cyber Wordle
+              <span className="wt-desktop-text">Cyber Wordle</span>
+              <span className="wt-mobile-text wt-card-title">🎮 Daily Cyber Wordle</span>
+              <span className="wt-mobile-text wt-card-subtitle">Today&apos;s challenge →</span>
             </Link>
             {/* Live indicator */}
             <div
               className="wt-live-pill"
+              aria-label={`RSS feeds updated. ${updatedLabel}`}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -323,6 +365,7 @@ export default function WessTech({
               }}
             >
               <div
+                className="wt-live-dot"
                 style={{
                   width: 6,
                   height: 6,
@@ -331,9 +374,11 @@ export default function WessTech({
                   animation: "pulse 1.5s ease-in-out infinite",
                 }}
               />
-              <span className="sg" style={{ color: "#6b7280", fontSize: 11 }}>
+              <span className="sg wt-desktop-text" style={{ color: "#6b7280", fontSize: 11 }}>
                 Live · {lastUpdated}
               </span>
+              <span className="sg wt-mobile-text wt-card-title">🟢 RSS feeds updated</span>
+              <span className="sg wt-mobile-text wt-card-subtitle">{updatedLabel}</span>
             </div>
             <button
               className="nb sg wt-saved-btn"
@@ -349,7 +394,11 @@ export default function WessTech({
                 border: `1px solid ${showSaved ? "#2563eb" : "#1e2d47"}`,
               }}
             >
-              🔖 {saved.length > 0 ? `Saved (${saved.length})` : "Saved"}
+              <span className="wt-desktop-text">
+                🔖 {saved.length > 0 ? `Saved (${saved.length})` : "Saved"}
+              </span>
+              <span className="wt-mobile-text wt-card-title">❤️ Saved Articles</span>
+              <span className="wt-mobile-text wt-card-subtitle">View saved guides →</span>
             </button>
           </div>
         </div>
