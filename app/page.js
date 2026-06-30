@@ -49,6 +49,7 @@ export default async function Home() {
       fetchedAt={fetchedAt}
       feedError={feedError}
       featuredGuide={featuredGuide}
+      originalGuides={allArticles}
     />
   );
 }

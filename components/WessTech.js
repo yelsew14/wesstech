@@ -54,6 +54,7 @@ export default function WessTech({
   fetchedAt,
   feedError,
   featuredGuide,
+  originalGuides = [],
 }) {
   const [activecat, setActivecat] = useState("all");
   const [saved, setSaved] = useState([]);
@@ -73,6 +74,10 @@ export default function WessTech({
   });
 
   const hot = articles.filter((n) => n.hot).slice(0, 4);
+  const latestOriginalGuides = originalGuides
+    .filter((guide) => guide.slug !== featuredGuide?.slug)
+    .slice(0, 3);
+  const visibleNews = showSaved ? filtered : filtered.slice(0, 9);
 
   const toggleSave = (id, e) => {
     e.preventDefault();
@@ -105,11 +110,16 @@ export default function WessTech({
         .ch:hover{transform:translateY(-2px)}
         .nb{background:none;border:none;cursor:pointer;transition:all .18s}
         .nb:hover{opacity:.75}
-        .card{background:#0d1424;border:1px solid #1e2d47;border-radius:14px;transition:all .2s}
-        .card:hover{border-color:#2563eb44;background:#111827;transform:translateY(-2px);box-shadow:0 8px 32px rgba(37,99,235,.12)}
-        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+        .card{background:#0d1424;border:1px solid #1e2d47;border-radius:14px;transition:all .22s ease}
+        .card:hover{border-color:#2563eb55;background:#111827;transform:translateY(-3px);box-shadow:0 18px 46px rgba(3,7,17,.35),0 8px 32px rgba(37,99,235,.14)}
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;align-items:stretch}
         .featured-guide{display:grid;grid-template-columns:minmax(0,1fr) auto}
-        @media(max-width:640px){.grid{grid-template-columns:1fr}.featured-guide{grid-template-columns:1fr}.featured-guide a{width:100%;text-align:center}}
+        .original-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;align-items:stretch}
+        .line-clamp-2,.line-clamp-3{display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+        .line-clamp-2{-webkit-line-clamp:2}
+        .line-clamp-3{-webkit-line-clamp:3}
+        .section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px}
+        @media(max-width:640px){.grid,.original-grid{grid-template-columns:1fr}.featured-guide{grid-template-columns:1fr}.featured-guide a{width:100%;text-align:center}.section-heading{align-items:flex-start;flex-direction:column}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
         @keyframes spin{to{transform:rotate(360deg)}}
@@ -277,13 +287,13 @@ export default function WessTech({
         </div>
       </nav>
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 80px" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 72px" }}>
         {/* ── HERO ── */}
         <div
           style={{
-            padding: "44px 0 32px",
+            padding: "64px 0 46px",
             borderBottom: "1px solid #1e2d47",
-            marginBottom: 32,
+            marginBottom: 56,
           }}
         >
           <div
@@ -291,7 +301,7 @@ export default function WessTech({
               display: "flex",
               alignItems: "center",
               gap: 10,
-              marginBottom: 14,
+              marginBottom: 18,
             }}
           >
             <div
@@ -306,7 +316,7 @@ export default function WessTech({
             <span
               className="sg"
               style={{
-                color: "#374151",
+                color: "#64748b",
                 fontSize: 12,
                 letterSpacing: ".1em",
                 textTransform: "uppercase",
@@ -318,10 +328,10 @@ export default function WessTech({
           <h1
             className="sy"
             style={{
-              fontSize: "clamp(28px,5vw,50px)",
+              fontSize: "clamp(34px,6vw,66px)",
               fontWeight: 800,
-              lineHeight: 1.05,
-              marginBottom: 14,
+              lineHeight: 1.02,
+              marginBottom: 22,
               letterSpacing: "-.03em",
             }}
           >
@@ -329,9 +339,11 @@ export default function WessTech({
             <br />
             <span
               style={{
-                background: "linear-gradient(90deg,#2563eb,#7c3aed)",
+                background:
+                  "linear-gradient(90deg,#93c5fd 0%,#38bdf8 35%,#a78bfa 72%,#f0abfc 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
+                textShadow: "0 0 36px rgba(96,165,250,.18)",
               }}
             >
               for Real-World Teams
@@ -340,10 +352,10 @@ export default function WessTech({
           <p
             className="sg"
             style={{
-              color: "#6b7280",
-              fontSize: 15,
-              maxWidth: 520,
-              lineHeight: 1.7,
+              color: "#94a3b8",
+              fontSize: 16,
+              maxWidth: 650,
+              lineHeight: 1.8,
             }}
           >
             WessTech publishes original guides on AI, networking,
@@ -372,26 +384,18 @@ export default function WessTech({
 
         {/* ── FEATURED GUIDE ── */}
         {!showSaved && search === "" && featuredGuide && (
-          <section style={{ marginBottom: 32 }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: 16,
-                marginBottom: 14,
-              }}
-            >
+          <section style={{ marginBottom: 64 }}>
+            <div className="section-heading">
               <div>
                 <div
                   className="sg"
                   style={{
-                    color: "#2563eb",
+                    color: "#60a5fa",
                     fontSize: 11,
                     fontWeight: 700,
                     letterSpacing: ".12em",
                     textTransform: "uppercase",
-                    marginBottom: 5,
+                    marginBottom: 8,
                   }}
                 >
                   Featured Guide
@@ -399,7 +403,7 @@ export default function WessTech({
                 <h2
                   className="sy"
                   style={{
-                    fontSize: 24,
+                    fontSize: 28,
                     fontWeight: 800,
                     color: "#f1f5f9",
                     letterSpacing: "-.02em",
@@ -411,7 +415,7 @@ export default function WessTech({
               <a
                 href="/articles"
                 className="sg"
-                style={{ color: "#6b7280", fontSize: 13, fontWeight: 600 }}
+                style={{ color: "#94a3b8", fontSize: 13, fontWeight: 700 }}
               >
                 View all guides →
               </a>
@@ -420,10 +424,14 @@ export default function WessTech({
             <article
               className="card featured-guide"
               style={{
-                padding: "24px 24px",
-                borderLeft: "4px solid #2563eb",
-                gap: 20,
+                padding: "40px",
+                borderLeft: "5px solid #60a5fa",
+                gap: 30,
                 alignItems: "center",
+                background:
+                  "linear-gradient(135deg,rgba(15,23,42,.98),rgba(13,20,36,.92) 52%,rgba(30,41,59,.78))",
+                boxShadow:
+                  "0 24px 70px rgba(3,7,17,.34), inset 0 1px 0 rgba(255,255,255,.03)",
               }}
             >
               <div>
@@ -439,8 +447,9 @@ export default function WessTech({
                   <span
                     className="sg"
                     style={{
-                      background: "#ede9fe",
-                      color: "#6d28d9",
+                      background: "rgba(96,165,250,.12)",
+                      color: "#bfdbfe",
+                      border: "1px solid rgba(96,165,250,.24)",
                       borderRadius: 5,
                       padding: "3px 9px",
                       fontSize: 10.5,
@@ -451,7 +460,7 @@ export default function WessTech({
                   </span>
                   <span
                     className="sg"
-                    style={{ color: "#374151", fontSize: 12 }}
+                    style={{ color: "#64748b", fontSize: 12 }}
                   >
                     {featuredGuide.readTime} · Updated {featuredGuide.updated}
                   </span>
@@ -460,10 +469,10 @@ export default function WessTech({
                   className="sy"
                   style={{
                     color: "#f8fafc",
-                    fontSize: "clamp(22px,3vw,32px)",
-                    lineHeight: 1.2,
+                    fontSize: "clamp(28px,4vw,44px)",
+                    lineHeight: 1.12,
                     letterSpacing: "-.02em",
-                    marginBottom: 10,
+                    marginBottom: 16,
                   }}
                 >
                   {featuredGuide.title}
@@ -472,8 +481,8 @@ export default function WessTech({
                   className="sg"
                   style={{
                     color: "#94a3b8",
-                    fontSize: 14.5,
-                    lineHeight: 1.75,
+                    fontSize: 16,
+                    lineHeight: 1.8,
                     maxWidth: 760,
                   }}
                 >
@@ -484,13 +493,14 @@ export default function WessTech({
                 href={`/articles/${featuredGuide.slug}`}
                 className="sg"
                 style={{
-                  background: "#2563eb",
+                  background: "linear-gradient(135deg,#2563eb,#1d4ed8)",
                   color: "#fff",
-                  borderRadius: 9,
-                  padding: "11px 16px",
-                  fontSize: 13,
+                  borderRadius: 10,
+                  padding: "13px 18px",
+                  fontSize: 14,
                   fontWeight: 700,
                   whiteSpace: "nowrap",
+                  boxShadow: "0 12px 30px rgba(37,99,235,.25)",
                 }}
               >
                 Read Article →
@@ -499,9 +509,167 @@ export default function WessTech({
           </section>
         )}
 
-        {/* ── HOT STORIES ── */}
-        {!showSaved && search === "" && hot.length > 0 && (
-          <div style={{ marginBottom: 32 }}>
+        {/* ── LATEST ORIGINAL GUIDES ── */}
+        {!showSaved && search === "" && latestOriginalGuides.length > 0 && (
+          <section style={{ marginBottom: 68 }}>
+            <div className="section-heading">
+              <div>
+                <div
+                  className="sg"
+                  style={{
+                    color: "#60a5fa",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: ".12em",
+                    textTransform: "uppercase",
+                    marginBottom: 8,
+                  }}
+                >
+                  Latest Original Guides
+                </div>
+                <h2
+                  className="sy"
+                  style={{
+                    fontSize: 26,
+                    fontWeight: 800,
+                    color: "#f1f5f9",
+                    letterSpacing: "-.02em",
+                  }}
+                >
+                  Practical WessTech Articles
+                </h2>
+              </div>
+              <a
+                href="/articles"
+                className="sg"
+                style={{ color: "#94a3b8", fontSize: 13, fontWeight: 700 }}
+              >
+                Browse all guides →
+              </a>
+            </div>
+
+            <div className="original-grid">
+              {latestOriginalGuides.map((guide) => (
+                <a key={guide.slug} href={`/articles/${guide.slug}`}>
+                  <article
+                    className="card"
+                    style={{
+                      minHeight: 292,
+                      height: "100%",
+                      padding: "24px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 14,
+                      borderColor: "#243653",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: 8,
+                        alignItems: "center",
+                      }}
+                    >
+                      <span
+                        className="sg"
+                        style={{
+                          background: "rgba(14,165,233,.12)",
+                          color: "#7dd3fc",
+                          border: "1px solid rgba(14,165,233,.22)",
+                          borderRadius: 5,
+                          padding: "3px 9px",
+                          fontSize: 10.5,
+                          fontWeight: 700,
+                        }}
+                      >
+                        {guide.category}
+                      </span>
+                      <span
+                        className="sg"
+                        style={{ color: "#64748b", fontSize: 12 }}
+                      >
+                        {guide.date} · {guide.readTime}
+                      </span>
+                    </div>
+                    <h3
+                      className="sy line-clamp-2"
+                      style={{
+                        color: "#f8fafc",
+                        fontSize: 22,
+                        lineHeight: 1.22,
+                        letterSpacing: "-.02em",
+                      }}
+                    >
+                      {guide.title}
+                    </h3>
+                    <p
+                      className="sg line-clamp-3"
+                      style={{
+                        color: "#94a3b8",
+                        fontSize: 14.5,
+                        lineHeight: 1.7,
+                        flex: 1,
+                      }}
+                    >
+                      {guide.excerpt}
+                    </p>
+                    <span
+                      className="sg"
+                      style={{
+                        color: "#93c5fd",
+                        fontSize: 13,
+                        fontWeight: 700,
+                        marginTop: "auto",
+                      }}
+                    >
+                      Read Guide →
+                    </span>
+                  </article>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── CURATED NEWS ── */}
+        <section style={{ marginBottom: 42 }}>
+          <div className="section-heading">
+            <div>
+              <div
+                className="sg"
+                style={{
+                  color: "#64748b",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: ".12em",
+                  textTransform: "uppercase",
+                  marginBottom: 8,
+                }}
+              >
+                Curated Technology News
+              </div>
+              <h2
+                className="sy"
+                style={{
+                  fontSize: 24,
+                  fontWeight: 800,
+                  color: "#f1f5f9",
+                  letterSpacing: "-.02em",
+                }}
+              >
+                RSS Headlines
+              </h2>
+            </div>
+            <span className="sg" style={{ color: "#64748b", fontSize: 12 }}>
+              Showing {Math.min(filtered.length, showSaved ? filtered.length : 9)} of{" "}
+              {filtered.length}
+            </span>
+          </div>
+
+          {/* ── HOT STORIES ── */}
+          {!showSaved && search === "" && hot.length > 0 && (
+            <div style={{ marginBottom: 30 }}>
             <div
               style={{
                 display: "flex",
@@ -529,7 +697,7 @@ export default function WessTech({
                   BREAKING
                 </span>
               </div>
-              <span className="sg" style={{ color: "#6b7280", fontSize: 12 }}>
+              <span className="sg" style={{ color: "#64748b", fontSize: 12 }}>
                 Curated technology stories from the last 3 hours
               </span>
             </div>
@@ -606,8 +774,8 @@ export default function WessTech({
                 );
               })}
             </div>
-          </div>
-        )}
+            </div>
+          )}
 
         {/* ── CATEGORY TABS ── */}
         <div
@@ -616,7 +784,7 @@ export default function WessTech({
             gap: 8,
             overflowX: "auto",
             paddingBottom: 8,
-            marginBottom: 24,
+            marginBottom: 26,
           }}
         >
           {CATEGORIES.map((c) => {
@@ -677,7 +845,7 @@ export default function WessTech({
           </div>
         ) : (
           <div className="grid fi">
-            {filtered.map((n) => {
+            {visibleNews.map((n) => {
               const cc = CAT_COLORS[n.cat] || CAT_COLORS.ai;
               const isSaved = saved.includes(n.id);
               return (
@@ -691,6 +859,7 @@ export default function WessTech({
                     className="card"
                     style={{
                       padding: "18px 18px",
+                      minHeight: 254,
                       height: "100%",
                       display: "flex",
                       flexDirection: "column",
@@ -750,23 +919,25 @@ export default function WessTech({
                       </div>
                     </div>
                     <h3
-                      className="sg"
+                      className="sg line-clamp-2"
                       style={{
                         fontSize: 14,
                         fontWeight: 700,
                         color: "#f1f5f9",
                         lineHeight: 1.5,
-                        flex: 1,
+                        minHeight: 42,
                       }}
                     >
                       {n.title}
                     </h3>
                     <p
-                      className="sg"
+                      className="sg line-clamp-3"
                       style={{
                         fontSize: 12.5,
                         color: "#6b7280",
                         lineHeight: 1.6,
+                        minHeight: 60,
+                        flex: 1,
                       }}
                     >
                       {n.summary}
@@ -850,31 +1021,33 @@ export default function WessTech({
             </p>
           </div>
         )}
+        </section>
 
         {/* ── SOURCES ── */}
         <div
           style={{
-            marginTop: 40,
-            paddingTop: 28,
+            marginTop: 24,
+            paddingTop: 22,
             borderTop: "1px solid #1e2d47",
           }}
         >
-          <h2
-            className="sy"
+          <div
+            className="sg"
             style={{
-              fontSize: 18,
-              fontWeight: 800,
-              color: "#f1f5f9",
-              marginBottom: 16,
-              letterSpacing: "-.02em",
+              color: "#64748b",
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: ".12em",
+              textTransform: "uppercase",
+              marginBottom: 12,
             }}
           >
             News Sources
-          </h2>
+          </div>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill,minmax(170px,1fr))",
+              gridTemplateColumns: "repeat(auto-fill,minmax(150px,1fr))",
               gap: 8,
             }}
           >
@@ -883,16 +1056,16 @@ export default function WessTech({
                 <div
                   className="card ch"
                   style={{
-                    padding: "11px 14px",
+                    padding: "8px 11px",
                     display: "flex",
                     alignItems: "center",
-                    gap: 10,
+                    gap: 8,
                   }}
                 >
-                  <span style={{ fontSize: 16 }}>{s.flag}</span>
+                  <span style={{ fontSize: 14 }}>{s.flag}</span>
                   <span
                     className="sg"
-                    style={{ fontSize: 12.5, color: "#94a3b8" }}
+                    style={{ fontSize: 12, color: "#94a3b8" }}
                   >
                     {s.name}
                   </span>
@@ -905,11 +1078,11 @@ export default function WessTech({
         {/* ── ABOUT + LINKS ── */}
         <div
           style={{
-            marginTop: 32,
+            marginTop: 28,
             background: "#0d1424",
             border: "1px solid #1e2d47",
             borderRadius: 16,
-            padding: "24px 24px",
+            padding: "20px 22px",
           }}
         >
           <div
@@ -1000,17 +1173,16 @@ export default function WessTech({
         style={{
           background: "#030711",
           borderTop: "1px solid #1e2d47",
-          padding: "32px 24px",
+          padding: "24px",
         }}
       >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: 20,
-              marginBottom: 20,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))",
+              gap: 24,
+              marginBottom: 16,
             }}
           >
             <div>
@@ -1047,9 +1219,9 @@ export default function WessTech({
                 className="sg"
                 style={{
                   color: "#6b7280",
-                  fontSize: 12.5,
-                  maxWidth: 300,
-                  lineHeight: 1.7,
+                  fontSize: 12,
+                  maxWidth: 430,
+                  lineHeight: 1.6,
                 }}
               >
                 WessTech publishes original guides on AI, networking,
@@ -1058,7 +1230,7 @@ export default function WessTech({
                 to PathwayNZ, a free guide for Filipino migrants in New Zealand.
               </p>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div>
               <div
                 className="sg"
                 style={{
@@ -1066,11 +1238,12 @@ export default function WessTech({
                   fontSize: 11,
                   letterSpacing: ".1em",
                   textTransform: "uppercase",
-                  marginBottom: 4,
+                  marginBottom: 10,
                 }}
               >
                 Pages
               </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 14px" }}>
               {[
                 { label: "Original Guides", url: "/articles" },
                 { label: "About WessTech", url: "/about" },
@@ -1095,12 +1268,13 @@ export default function WessTech({
                   {l.label} →
                 </a>
               ))}
+              </div>
             </div>
           </div>
           <div
             style={{
               borderTop: "1px solid #1e2d47",
-              paddingTop: 16,
+              paddingTop: 14,
               display: "flex",
               justifyContent: "space-between",
               flexWrap: "wrap",
