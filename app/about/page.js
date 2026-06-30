@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function About() {
   return (
     <div style={{ background: '#060a14', minHeight: '100vh', fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -13,13 +15,13 @@ export default function About() {
       {/* Nav */}
       <div style={{ background: '#030711', borderBottom: '1px solid #1e2d47', padding: '0 24px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
             <div style={{ width: 30, height: 30, background: 'linear-gradient(135deg,#2563eb,#7c3aed)', borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>⚡</div>
             <span className="sy" style={{ color: '#f8fafc', fontSize: 16, fontWeight: 800 }}>WessTech</span>
-          </a>
+          </Link>
           <div style={{ display: 'flex', gap: 20 }}>
-            <a href="/" className="sg" style={{ color: '#6b7280', fontSize: 13 }}>← Back to News</a>
-            <a href="/privacy" className="sg" style={{ color: '#6b7280', fontSize: 13 }}>Privacy Policy</a>
+            <Link href="/" className="sg" style={{ color: '#6b7280', fontSize: 13 }}>← Back to News</Link>
+            <Link href="/privacy" className="sg" style={{ color: '#6b7280', fontSize: 13 }}>Privacy Policy</Link>
           </div>
         </div>
       </div>
@@ -141,9 +143,9 @@ export default function About() {
 
         {/* Back link */}
         <div style={{ marginTop: 40, textAlign: 'center' }}>
-          <a href="/" className="sg" style={{ color: '#2563eb', fontSize: 14, fontWeight: 600 }}>← Back to WessTech News</a>
+          <Link href="/" className="sg" style={{ color: '#2563eb', fontSize: 14, fontWeight: 600 }}>← Back to WessTech News</Link>
           <span className="sg" style={{ color: '#374151', margin: '0 16px' }}>·</span>
-          <a href="/privacy" className="sg" style={{ color: '#4b5563', fontSize: 14 }}>Privacy Policy</a>
+          <Link href="/privacy" className="sg" style={{ color: '#4b5563', fontSize: 14 }}>Privacy Policy</Link>
         </div>
 
       </div>

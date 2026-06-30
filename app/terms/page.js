@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const metadata = {
   title: "Terms of Use | WessTech",
   description:
@@ -17,12 +19,12 @@ export default function TermsPage() {
       <div
         style={{ maxWidth: 900, margin: "0 auto", padding: "60px 24px 90px" }}
       >
-        <a
+        <Link
           href="/"
           style={{ color: "#6b7280", fontSize: 13, textDecoration: "none" }}
         >
           ← Back to WessTech
-        </a>
+        </Link>
 
         <h1
           style={{
