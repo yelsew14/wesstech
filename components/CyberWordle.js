@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const WORDS = [
   "ABUSE",
@@ -437,14 +438,43 @@ function getKeyboardStatus(guesses, answer) {
   return statuses;
 }
 
+function getSavedGame(storageKey, dateKey) {
+  const fallback = {
+    guesses: EMPTY_BOARD,
+    currentGuess: "",
+    message: "Find today's 5-letter tech term.",
+  };
+
+  if (typeof window === "undefined") return fallback;
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+    if (saved?.dateKey !== dateKey || !Array.isArray(saved.guesses)) {
+      return fallback;
+    }
+
+    return {
+      guesses: [...saved.guesses, ...EMPTY_BOARD].slice(0, 6),
+      currentGuess: saved.currentGuess || "",
+      message: saved.message || fallback.message,
+    };
+  } catch {
+    return fallback;
+  }
+}
+
 export default function CyberWordle() {
   const dateKey = useMemo(() => getDateKey(), []);
   const answer = useMemo(() => getDailyWord(dateKey), [dateKey]);
   const storageKey = `wesstech-cyberwordle-${dateKey}`;
-  const [guesses, setGuesses] = useState(EMPTY_BOARD);
-  const [currentGuess, setCurrentGuess] = useState("");
-  const [message, setMessage] = useState("Find today's 5-letter tech term.");
-  const [loaded, setLoaded] = useState(false);
+  const initialGame = useMemo(
+    () => getSavedGame(storageKey, dateKey),
+    [dateKey, storageKey],
+  );
+  const [guesses, setGuesses] = useState(initialGame.guesses);
+  const [currentGuess, setCurrentGuess] = useState(initialGame.currentGuess);
+  const [message, setMessage] = useState(initialGame.message);
+  const hasMounted = useRef(false);
 
   const submittedGuesses = guesses.filter(Boolean);
   const isWon = submittedGuesses.includes(answer);
@@ -452,27 +482,16 @@ export default function CyberWordle() {
   const keyboardStatus = getKeyboardStatus(submittedGuesses, answer);
 
   useEffect(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
-      if (saved?.dateKey === dateKey && Array.isArray(saved.guesses)) {
-        setGuesses([...saved.guesses, ...EMPTY_BOARD].slice(0, 6));
-        setCurrentGuess(saved.currentGuess || "");
-        if (saved.message) setMessage(saved.message);
-      }
-    } catch {
-      setMessage("Find today's 5-letter tech term.");
-    } finally {
-      setLoaded(true);
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return;
     }
-  }, [dateKey, storageKey]);
 
-  useEffect(() => {
-    if (!loaded) return;
     localStorage.setItem(
       storageKey,
       JSON.stringify({ dateKey, guesses, currentGuess, message })
     );
-  }, [currentGuess, dateKey, guesses, loaded, message, storageKey]);
+  }, [currentGuess, dateKey, guesses, message, storageKey]);
 
   const submitGuess = () => {
     if (isComplete) return;
@@ -543,7 +562,7 @@ export default function CyberWordle() {
         .cw-mark{width:32px;height:32px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
         .cw-brand-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:800}
         .cw-nav-links{display:flex;gap:18px;align-items:center}
-        .cw-nav-links a{color:#94a3b8;text-decoration:none;font-size:13px;font-weight:700}
+        .cw-nav-links a{color:#94a3b8;text-decoration:none;font-size:13px;font-weight:700;min-height:44px;display:inline-flex;align-items:center}
         .cw-hero{padding:54px 0 32px;border-bottom:1px solid #1e2d47;margin-bottom:34px;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:24px;align-items:end}
         .cw-kicker{color:#60a5fa;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
         .cw-title{font-family:'Syne',sans-serif;color:#f8fafc;font-size:clamp(34px,6vw,64px);line-height:1.02;letter-spacing:-.02em;margin:0 0 14px}
@@ -552,9 +571,9 @@ export default function CyberWordle() {
         .cw-date{background:#0d1424;border:1px solid #1e2d47;border-radius:8px;padding:16px;text-align:right}
         .cw-date-label{color:#64748b;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
         .cw-date-value{color:#f1f5f9;font-size:18px;font-weight:800}
-        .cw-game{display:grid;grid-template-columns:minmax(320px,450px) minmax(280px,1fr);gap:28px;align-items:start}
+        .cw-game{display:grid;grid-template-columns:minmax(0,450px) minmax(280px,1fr);gap:28px;align-items:start}
         .cw-panel{background:#0d1424;border:1px solid #1e2d47;border-radius:14px;padding:22px;box-shadow:0 24px 70px rgba(3,7,17,.28)}
-        .cw-board{display:grid;grid-template-rows:repeat(6,1fr);gap:8px;margin:0 auto;max-width:360px}
+        .cw-board{display:grid;grid-template-rows:repeat(6,1fr);gap:8px;margin:0 auto;width:min(100%,360px)}
         .cw-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
         .cw-cell{aspect-ratio:1;border:1px solid #243653;border-radius:8px;background:#060a14;display:flex;align-items:center;justify-content:center;color:#f8fafc;font-size:clamp(26px,7vw,38px);font-weight:800;line-height:1}
         .cw-cell.filled{border-color:#3b4d6d;background:#111827}
@@ -562,11 +581,11 @@ export default function CyberWordle() {
         .cw-cell.present{background:#b45309;border-color:#f59e0b;color:#fff}
         .cw-cell.absent{background:#334155;border-color:#475569;color:#cbd5e1}
         .cw-message{min-height:42px;margin:18px auto 0;max-width:360px;background:#060a14;border:1px solid #1e2d47;border-radius:8px;color:#bfdbfe;padding:11px 14px;font-size:14px;font-weight:700;text-align:center}
-        .cw-keyboard{display:grid;gap:8px;margin-top:22px}
-        .cw-key-row{display:flex;gap:6px;justify-content:center}
-        .cw-key{height:42px;min-width:34px;border:1px solid #243653;border-radius:7px;background:#111827;color:#e2e8f0;font-size:13px;font-weight:800;cursor:pointer;transition:transform .12s ease,background .12s ease,border-color .12s ease}
+        .cw-keyboard{display:grid;gap:8px;margin:22px auto 0;width:min(100%,420px);overflow:hidden}
+        .cw-key-row{display:flex;gap:6px;justify-content:center;width:100%}
+        .cw-key{height:44px;min-width:0;flex:1 1 0;border:1px solid #243653;border-radius:7px;background:#111827;color:#e2e8f0;font-size:13px;font-weight:800;cursor:pointer;transition:transform .12s ease,background .12s ease,border-color .12s ease;touch-action:manipulation}
         .cw-key:hover{transform:translateY(-1px);border-color:#60a5fa}
-        .cw-key.wide{min-width:62px;font-size:11px}
+        .cw-key.wide{flex:1.45 1 0;font-size:11px}
         .cw-key.correct{background:#15803d;border-color:#22c55e;color:#fff}
         .cw-key.present{background:#b45309;border-color:#f59e0b;color:#fff}
         .cw-key.absent{background:#334155;border-color:#475569;color:#cbd5e1}
@@ -581,18 +600,21 @@ export default function CyberWordle() {
         .cw-stat span{color:#64748b;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
         .cw-reset{width:100%;height:42px;margin-top:14px;background:#111827;border:1px solid #243653;border-radius:8px;color:#bfdbfe;font-weight:800;cursor:pointer}
         .cw-reset:hover{border-color:#60a5fa}
-        @media(max-width:820px){.cw-page{padding:0 14px 48px}.cw-hero{grid-template-columns:1fr;padding-top:36px}.cw-date{text-align:left}.cw-game{grid-template-columns:1fr}.cw-panel{padding:16px}.cw-nav-links{gap:12px}.cw-nav-links a{font-size:12px}.cw-key{min-width:28px;height:40px;font-size:12px}.cw-key.wide{min-width:52px}.cw-cell{border-radius:7px}}
+        :focus-visible{outline:3px solid #60a5fa;outline-offset:3px;border-radius:8px}
+        @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+        @media(max-width:820px){.cw-page{padding:0 14px 48px}.cw-hero{grid-template-columns:1fr;padding-top:36px}.cw-date{text-align:left}.cw-game{grid-template-columns:1fr}.cw-panel{padding:16px}.cw-nav-links{gap:12px}.cw-nav-links a{font-size:12px}.cw-cell{border-radius:7px}}
+        @media(max-width:420px){.cw-page{padding-left:10px;padding-right:10px}.cw-panel,.cw-card{padding:14px}.cw-row,.cw-board,.cw-keyboard{gap:6px}.cw-key-row{gap:4px}.cw-key{height:42px;font-size:12px;border-radius:6px}.cw-key.wide{font-size:10px}.cw-stats{grid-template-columns:1fr}.cw-title{font-size:34px}.cw-copy{font-size:15px}}
       `}</style>
 
       <div className="cw-wrap">
         <nav className="cw-nav" aria-label="Cyber Wordle navigation">
-          <a className="cw-brand" href="/">
+          <Link className="cw-brand" href="/">
             <span className="cw-mark">⚡</span>
             <span className="cw-brand-name">WessTech</span>
-          </a>
+          </Link>
           <div className="cw-nav-links">
-            <a href="/">Home</a>
-            <a href="/articles">Guides</a>
+            <Link href="/">Home</Link>
+            <Link href="/articles">Guides</Link>
           </div>
         </nav>
 
@@ -615,7 +637,7 @@ export default function CyberWordle() {
 
         <section className="cw-game" aria-label="Cyber Wordle game">
           <div className="cw-panel">
-            <div className="cw-board" aria-label="Guess grid">
+            <div className="cw-board" role="grid" aria-label="Guess grid">
               {guesses.map((guess, rowIndex) => {
                 const isSubmitted = Boolean(guess);
                 const word =
@@ -629,7 +651,7 @@ export default function CyberWordle() {
                 const scores = isSubmitted ? scoreGuess(guess, answer) : [];
 
                 return (
-                  <div className="cw-row" key={rowIndex}>
+                  <div className="cw-row" role="row" key={rowIndex}>
                     {letters.map((letter, letterIndex) => (
                       <div
                         className={[
@@ -640,6 +662,8 @@ export default function CyberWordle() {
                           .filter(Boolean)
                           .join(" ")}
                         key={`${rowIndex}-${letterIndex}`}
+                        role="gridcell"
+                        aria-label={`Row ${rowIndex + 1}, column ${letterIndex + 1}${letter ? `, ${letter}` : ""}`}
                       >
                         {letter}
                       </div>

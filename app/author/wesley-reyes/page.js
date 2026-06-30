@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const metadata = {
   title: "Wesley Reyes | WessTech Author",
   description:
@@ -17,12 +19,12 @@ export default function WesleyReyesAuthorPage() {
       <div
         style={{ maxWidth: 900, margin: "0 auto", padding: "60px 24px 90px" }}
       >
-        <a
+        <Link
           href="/"
           style={{ color: "#6b7280", fontSize: 13, textDecoration: "none" }}
         >
           ← Back to WessTech
-        </a>
+        </Link>
 
         <section
           style={{
@@ -150,7 +152,7 @@ export default function WesleyReyesAuthorPage() {
             For enquiries, feedback, or article suggestions, please contact
             WessTech through the contact page.
           </p>
-          <a
+          <Link
             href="/contact"
             style={{
               display: "inline-block",
@@ -165,7 +167,7 @@ export default function WesleyReyesAuthorPage() {
             }}
           >
             Contact WessTech
-          </a>
+          </Link>
         </section>
       </div>
     </main>

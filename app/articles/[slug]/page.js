@@ -1,6 +1,7 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllArticles, getArticleBySlug } from "../../../lib/articles";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 export function generateStaticParams() {
   return getAllArticles().map((article) => ({
@@ -55,23 +56,52 @@ export default async function ArticlePage({ params }) {
         .sg{font-family:'Space Grotesk',sans-serif}
         .sy{font-family:'Syne',sans-serif}
         a{color:inherit;text-decoration:none}
+        :focus-visible{outline:3px solid #60a5fa;outline-offset:3px;border-radius:8px}
+        .article-shell{max-width:860px;margin:0 auto;padding:60px 24px 90px}
         .article-link:hover{text-decoration:underline}
-        .article-body h2{font-family:'Syne',sans-serif;color:#f1f5f9;font-size:28px;line-height:1.3;margin:0 0 14px;scroll-margin-top:78px}
-        .article-body p{color:#cbd5e1;font-size:16px;line-height:1.9;margin:0 0 18px}
-        .article-body section{margin-bottom:34px}
+        .article-body{overflow-wrap:break-word}
+        .article-body h1{font-family:'Syne',sans-serif;color:#f8fafc;font-size:clamp(28px,5vw,42px);line-height:1.16;margin:42px 0 16px;letter-spacing:-.02em}
+        .article-body h2{font-family:'Syne',sans-serif;color:#f1f5f9;font-size:clamp(24px,4vw,30px);line-height:1.25;margin:42px 0 14px;scroll-margin-top:78px;letter-spacing:-.01em}
+        .article-body h3{font-family:'Syne',sans-serif;color:#e2e8f0;font-size:clamp(20px,3vw,24px);line-height:1.3;margin:32px 0 12px}
+        .article-body p{color:#cbd5e1;font-size:clamp(15.5px,2vw,17px);line-height:1.9;margin:0 0 20px}
+        .article-body ul,.article-body ol{color:#cbd5e1;font-size:16px;line-height:1.85;margin:0 0 24px;padding-left:24px}
+        .article-body li{margin-bottom:8px}
+        .article-body blockquote{background:#0d1424;border:1px solid #1e2d47;border-left:4px solid #60a5fa;border-radius:14px;color:#cbd5e1;margin:28px 0;padding:20px 22px}
+        .article-body blockquote p{margin-bottom:12px}
+        .article-body blockquote p:last-child{margin-bottom:0}
+        .article-body pre{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;background:#020617;border:1px solid #1e2d47;border-radius:14px;color:#dbeafe;font-size:14px;line-height:1.7;margin:24px 0;padding:18px}
+        .article-body code{background:#111827;border:1px solid #243653;border-radius:6px;color:#bfdbfe;font-size:.92em;padding:2px 5px}
+        .article-body pre code{background:transparent;border:0;border-radius:0;padding:0;color:inherit;font-size:inherit}
+        .article-body table{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-collapse:collapse;margin:26px 0;color:#cbd5e1}
+        .article-body th,.article-body td{border:1px solid #1e2d47;padding:10px 12px;text-align:left;min-width:150px}
+        .article-body th{background:#0d1424;color:#f1f5f9}
+        .article-body img{display:block;max-width:100%;height:auto;border-radius:14px;margin:28px auto}
+        .article-meta{display:flex;flex-wrap:wrap;gap:12px;color:#6b7280;font-size:14px;margin-top:22px;padding-top:18px;border-top:1px solid #1e2d47}
+        .article-card{background:#0d1424;border:1px solid #1e2d47;border-radius:16px}
+        .article-card a,.article-meta a{min-height:32px;display:inline-flex;align-items:center}
+        @media(max-width:640px){
+          .article-shell{padding:36px 16px 64px!important}
+          .article-meta{display:grid!important;gap:8px!important}
+          .article-meta span[aria-hidden="true"]{display:none}
+          .article-body ul,.article-body ol{padding-left:20px}
+          .article-body blockquote,.article-card{border-radius:12px!important}
+        }
+        @media(max-width:380px){.article-shell{padding-left:12px!important;padding-right:12px!important}}
       `}</style>
       <article
+        className="article-shell"
         style={{ maxWidth: 860, margin: "0 auto", padding: "60px 24px 90px" }}
       >
-        <a
+        <Link
           href="/articles"
           style={{ color: "#6b7280", fontSize: 13, textDecoration: "none" }}
         >
           ← Back to Articles
-        </a>
+        </Link>
 
         <header style={{ marginTop: 36, marginBottom: 36 }}>
           <div
+            className="article-meta"
             style={{
               color: "#60a5fa",
               fontSize: 13,
@@ -120,21 +150,22 @@ export default async function ArticlePage({ params }) {
           >
             <span>
               By{" "}
-              <a
+              <Link
                 href="/author/wesley-reyes"
                 style={{ color: "#60a5fa", textDecoration: "none" }}
               >
                 {article.author}
-              </a>
+              </Link>
             </span>
-            <span>·</span>
+            <span aria-hidden="true">·</span>
             <span>Published {article.date}</span>
-            <span>·</span>
+            <span aria-hidden="true">·</span>
             <span>Updated {article.updated}</span>
           </div>
         </header>
 
         <aside
+          className="article-card"
           style={{
             background: "#0d1424",
             border: "1px solid #1e2d47",
@@ -219,7 +250,7 @@ export default async function ArticlePage({ params }) {
             AI, networking, cybersecurity, cloud, automation, and practical
             technology leadership.
           </p>
-          <a
+          <Link
             href="/author/wesley-reyes"
             style={{
               display: "inline-block",
@@ -231,7 +262,7 @@ export default async function ArticlePage({ params }) {
             }}
           >
             View author profile →
-          </a>
+          </Link>
         </footer>
       </article>
     </main>

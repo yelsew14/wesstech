@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function PrivacyPolicy() {
   return (
     <div style={{ background: '#060a14', minHeight: '100vh', fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -13,11 +15,11 @@ export default function PrivacyPolicy() {
       {/* Nav */}
       <div style={{ background: '#030711', borderBottom: '1px solid #1e2d47', padding: '0 24px' }}>
         <div style={{ maxWidth: 800, margin: '0 auto', height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
             <div style={{ width: 30, height: 30, background: 'linear-gradient(135deg,#2563eb,#7c3aed)', borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>⚡</div>
             <span className="sy" style={{ color: '#f8fafc', fontSize: 16, fontWeight: 800 }}>WessTech</span>
-          </a>
-          <a href="/" className="sg" style={{ color: '#6b7280', fontSize: 13 }}>← Back to News</a>
+          </Link>
+          <Link href="/" className="sg" style={{ color: '#6b7280', fontSize: 13 }}>← Back to News</Link>
         </div>
       </div>
 
@@ -64,7 +66,7 @@ export default function PrivacyPolicy() {
             content: (
               <>
                 <P>We use <Strong>Google AdSense</Strong> to display advertisements on this website. Google AdSense uses cookies and similar tracking technologies to show relevant ads based on your browsing activity and interests.</P>
-                <P>Google's use of advertising cookies enables it and its partners to serve ads based on your visits to this site and other sites on the internet.</P>
+                <P>Google&apos;s use of advertising cookies enables it and its partners to serve ads based on your visits to this site and other sites on the internet.</P>
                 <P>You may opt out of personalised advertising at any time by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google Ads Settings</a> or by visiting <a href="https://www.aboutads.info" target="_blank" rel="noopener noreferrer">aboutads.info</a>.</P>
               </>
             )

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 
 const CATEGORIES = [
@@ -89,8 +90,10 @@ export default function WessTech({
     ? new Date(fetchedAt).toLocaleTimeString("en-NZ", {
         hour: "2-digit",
         minute: "2-digit",
+        timeZoneName: "short",
       })
     : "";
+  const updatedLabel = lastUpdated ? `Updated ${lastUpdated}` : "Update time unavailable";
 
   return (
     <div
@@ -115,16 +118,76 @@ export default function WessTech({
         .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;align-items:stretch}
         .featured-guide{display:grid;grid-template-columns:minmax(0,1fr) auto}
         .original-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;align-items:stretch}
+        .wt-container{max-width:1200px;margin:0 auto;padding:0 24px 72px}
+        .wt-nav{background:#030711;border-bottom:1px solid #1e2d47;padding:0 24px;position:sticky;top:0;z-index:100}
+        .wt-nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;min-height:58px;gap:16px}
+        .wt-brand{display:flex;align-items:center;gap:10px;min-height:44px;flex-shrink:0}
+        .wt-mark{width:32px;height:32px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+        .wt-logo{color:#f8fafc;font-size:18px;font-weight:800;line-height:1;letter-spacing:-.02em}
+        .wt-search{flex:1;max-width:380px;position:relative}
+        .wt-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+        .wt-action-link,.wt-saved-btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+        .wt-live-pill{display:flex;align-items:center;gap:6px;min-height:36px}
+        .wt-mobile-text,.wt-mobile-featured{display:none}
+        .wt-categories{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:26px;scrollbar-width:thin}
+        .wt-category-btn{min-height:44px}
+        .wt-news-card{overflow:hidden}
+        .wt-news-card button{min-width:44px;min-height:44px;border-radius:8px}
+        .wt-footer-links a{min-height:32px;display:inline-flex;align-items:center}
         .line-clamp-2,.line-clamp-3{display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
         .line-clamp-2{-webkit-line-clamp:2}
         .line-clamp-3{-webkit-line-clamp:3}
         .section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px}
-        @media(max-width:640px){.grid,.original-grid{grid-template-columns:1fr}.featured-guide{grid-template-columns:1fr}.featured-guide a{width:100%;text-align:center}.section-heading{align-items:flex-start;flex-direction:column}}
+        .wt-card-meta{min-width:0}
+        :focus-visible{outline:3px solid #60a5fa;outline-offset:3px;border-radius:8px}
+        @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+        @media(max-width:920px){
+          .wt-nav{padding:8px 18px}
+          .wt-nav-inner{display:grid!important;grid-template-columns:1fr auto;height:auto!important;min-height:auto!important;gap:10px!important}
+          .wt-search{grid-column:1/-1;max-width:none!important;width:100%}
+          .wt-actions{justify-content:flex-end;flex-wrap:wrap}
+        }
+        @media(max-width:640px){
+          .wt-container{padding:0 16px 52px!important}
+          .wt-nav{padding:10px 14px 12px!important}
+          .wt-nav-inner{grid-template-columns:1fr!important;gap:9px!important}
+          .wt-brand{min-height:34px!important;gap:8px!important;justify-content:flex-start}
+          .wt-mark{width:24px!important;height:24px!important;border-radius:6px!important;font-size:12px!important}
+          .wt-logo{font-size:14px!important}
+          .wt-brand-subtitle{display:none}
+          .wt-search{width:100%;max-width:none!important}
+          .wt-search input{min-height:48px!important;border-radius:12px!important;padding:12px 14px 12px 40px!important;font-size:14px!important;background:#0d1424!important}
+          .wt-search span{left:14px!important;color:#94a3b8!important}
+          .wt-mobile-featured{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:64px;background:linear-gradient(135deg,rgba(37,99,235,.14),rgba(13,20,36,.98));border:1px solid #243653;border-radius:12px;padding:12px 14px}
+          .wt-mobile-featured-title{color:#f8fafc;font-size:13px;font-weight:800;line-height:1.25}
+          .wt-mobile-featured-meta{color:#94a3b8;font-size:11px;font-weight:700;margin-top:3px}
+          .wt-mobile-featured-cta{color:#bfdbfe;font-size:12px;font-weight:800;white-space:nowrap}
+          .wt-actions{width:100%;display:grid!important;grid-template-columns:1fr;gap:8px!important}
+          .wt-live-pill,.wt-action-link,.wt-saved-btn{width:100%;min-height:58px!important;border-radius:12px!important;padding:12px 14px!important;justify-content:flex-start!important;text-align:left!important}
+          .wt-live-pill{grid-column:auto;display:grid!important;grid-template-columns:1fr;row-gap:3px;align-items:center;background:#0d1424!important}
+          .wt-action-link,.wt-saved-btn{display:flex!important;flex-direction:column;align-items:flex-start!important;gap:3px!important;background:#0d1424!important;border-color:#243653!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+          .wt-saved-btn{color:#e2e8f0!important}
+          .wt-desktop-text{display:none}
+          .wt-mobile-text{display:block}
+          .wt-card-title{color:#f8fafc;font-size:14px;font-weight:800;line-height:1.15}
+          .wt-card-subtitle{color:#94a3b8;font-size:12px;font-weight:700;line-height:1.2}
+          .wt-live-dot{display:none!important}
+          .grid,.original-grid{grid-template-columns:1fr!important}
+          .featured-guide{grid-template-columns:1fr!important;padding:24px 18px!important;gap:22px!important}
+          .featured-guide a{width:100%;text-align:center}
+          .section-heading{align-items:flex-start;flex-direction:column}
+          .wt-news-card{min-height:auto!important}
+          .wt-card-meta{flex-direction:column;align-items:flex-start!important;gap:4px!important}
+        }
+        @media(max-width:380px){
+          .wt-container{padding-left:12px!important;padding-right:12px!important}
+          .wt-nav{padding-left:10px!important;padding-right:10px!important}
+        }
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
         @keyframes spin{to{transform:rotate(360deg)}}
         .fi{animation:fadeUp .4s ease forwards}
-        input::placeholder{color:#374151}
+        input::placeholder{color:#748199}
         input:focus{outline:none}
         ::-webkit-scrollbar{width:4px;height:4px}
         ::-webkit-scrollbar-track{background:#060a14}
@@ -134,6 +197,8 @@ export default function WessTech({
 
       {/* ── NAV ── */}
       <nav
+        className="wt-nav"
+        aria-label="Primary navigation"
         style={{
           background: "#030711",
           borderBottom: "1px solid #1e2d47",
@@ -144,6 +209,7 @@ export default function WessTech({
         }}
       >
         <div
+          className="wt-nav-inner"
           style={{
             maxWidth: 1200,
             margin: "0 auto",
@@ -154,7 +220,8 @@ export default function WessTech({
             gap: 16,
           }}
         >
-          <a
+          <Link
+            className="wt-brand"
             href="/"
             style={{
               display: "flex",
@@ -164,6 +231,7 @@ export default function WessTech({
             }}
           >
             <div
+              className="wt-mark"
               style={{
                 width: 32,
                 height: 32,
@@ -179,7 +247,7 @@ export default function WessTech({
             </div>
             <div>
               <div
-                className="sy"
+                className="sy wt-logo"
                 style={{
                   color: "#f8fafc",
                   fontSize: 18,
@@ -191,7 +259,8 @@ export default function WessTech({
                 WessTech
               </div>
               <div
-                className="sg"
+                className="sg wt-brand-subtitle"
+                aria-hidden="true"
                 style={{
                   color: "#374151",
                   fontSize: 9,
@@ -202,10 +271,10 @@ export default function WessTech({
                 AI, Networking & Cybersecurity
               </div>
             </div>
-          </a>
+          </Link>
 
           {/* Search */}
-          <div style={{ flex: 1, maxWidth: 380, position: "relative" }}>
+          <div className="wt-search" style={{ flex: 1, maxWidth: 380, position: "relative" }}>
             <span
               style={{
                 position: "absolute",
@@ -219,9 +288,10 @@ export default function WessTech({
               🔍
             </span>
             <input
+              aria-label="Search guides and technology news"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search guides and tech news..."
+              placeholder="Search articles, AI, cybersecurity..."
               className="sg"
               style={{
                 width: "100%",
@@ -235,7 +305,26 @@ export default function WessTech({
             />
           </div>
 
+          {!showSaved && search === "" && featuredGuide && (
+            <Link
+              className="wt-mobile-featured"
+              href={`/articles/${featuredGuide.slug}`}
+              aria-label={`Featured guide: ${featuredGuide.title}`}
+            >
+              <span>
+                <span className="wt-mobile-featured-title line-clamp-2">
+                  {featuredGuide.title}
+                </span>
+                <span className="wt-mobile-featured-meta">
+                  Featured Guide · {featuredGuide.readTime}
+                </span>
+              </span>
+              <span className="wt-mobile-featured-cta">Read →</span>
+            </Link>
+          )}
+
           <div
+            className="wt-actions"
             style={{
               display: "flex",
               gap: 8,
@@ -243,9 +332,9 @@ export default function WessTech({
               flexShrink: 0,
             }}
           >
-            <a
+            <Link
               href="/games/cyberwordle"
-              className="sg"
+              className="sg wt-action-link"
               style={{
                 padding: "6px 12px",
                 borderRadius: 8,
@@ -257,10 +346,14 @@ export default function WessTech({
                 whiteSpace: "nowrap",
               }}
             >
-              Cyber Wordle
-            </a>
+              <span className="wt-desktop-text">Cyber Wordle</span>
+              <span className="wt-mobile-text wt-card-title">🎮 Daily Cyber Wordle</span>
+              <span className="wt-mobile-text wt-card-subtitle">Today&apos;s challenge →</span>
+            </Link>
             {/* Live indicator */}
             <div
+              className="wt-live-pill"
+              aria-label={`RSS feeds updated. ${updatedLabel}`}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -272,6 +365,7 @@ export default function WessTech({
               }}
             >
               <div
+                className="wt-live-dot"
                 style={{
                   width: 6,
                   height: 6,
@@ -280,12 +374,15 @@ export default function WessTech({
                   animation: "pulse 1.5s ease-in-out infinite",
                 }}
               />
-              <span className="sg" style={{ color: "#6b7280", fontSize: 11 }}>
+              <span className="sg wt-desktop-text" style={{ color: "#6b7280", fontSize: 11 }}>
                 Live · {lastUpdated}
               </span>
+              <span className="sg wt-mobile-text wt-card-title">🟢 RSS feeds updated</span>
+              <span className="sg wt-mobile-text wt-card-subtitle">{updatedLabel}</span>
             </div>
             <button
-              className="nb sg"
+              className="nb sg wt-saved-btn"
+              aria-pressed={showSaved}
               onClick={() => setShowSaved(!showSaved)}
               style={{
                 padding: "6px 14px",
@@ -297,13 +394,17 @@ export default function WessTech({
                 border: `1px solid ${showSaved ? "#2563eb" : "#1e2d47"}`,
               }}
             >
-              🔖 {saved.length > 0 ? `Saved (${saved.length})` : "Saved"}
+              <span className="wt-desktop-text">
+                🔖 {saved.length > 0 ? `Saved (${saved.length})` : "Saved"}
+              </span>
+              <span className="wt-mobile-text wt-card-title">❤️ Saved Articles</span>
+              <span className="wt-mobile-text wt-card-subtitle">View saved guides →</span>
             </button>
           </div>
         </div>
       </nav>
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 72px" }}>
+      <div className="wt-container" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 72px" }}>
         {/* ── HERO ── */}
         <div
           style={{
@@ -428,13 +529,13 @@ export default function WessTech({
                   Original WessTech Analysis
                 </h2>
               </div>
-              <a
+              <Link
                 href="/articles"
                 className="sg"
                 style={{ color: "#94a3b8", fontSize: 13, fontWeight: 700 }}
               >
                 View all guides →
-              </a>
+              </Link>
             </div>
 
             <article
@@ -505,7 +606,7 @@ export default function WessTech({
                   {featuredGuide.excerpt}
                 </p>
               </div>
-              <a
+              <Link
                 href={`/articles/${featuredGuide.slug}`}
                 className="sg"
                 style={{
@@ -520,7 +621,7 @@ export default function WessTech({
                 }}
               >
                 Read Article →
-              </a>
+              </Link>
             </article>
           </section>
         )}
@@ -555,18 +656,18 @@ export default function WessTech({
                   Practical WessTech Articles
                 </h2>
               </div>
-              <a
+              <Link
                 href="/articles"
                 className="sg"
                 style={{ color: "#94a3b8", fontSize: 13, fontWeight: 700 }}
               >
                 Browse all guides →
-              </a>
+              </Link>
             </div>
 
             <div className="original-grid">
               {latestOriginalGuides.map((guide) => (
-                <a key={guide.slug} href={`/articles/${guide.slug}`}>
+                <Link key={guide.slug} href={`/articles/${guide.slug}`}>
                   <article
                     className="card"
                     style={{
@@ -642,7 +743,7 @@ export default function WessTech({
                       Read Guide →
                     </span>
                   </article>
-                </a>
+                </Link>
               ))}
             </div>
           </section>
@@ -795,6 +896,7 @@ export default function WessTech({
 
         {/* ── CATEGORY TABS ── */}
         <div
+          className="wt-categories"
           style={{
             display: "flex",
             gap: 8,
@@ -810,7 +912,8 @@ export default function WessTech({
             return (
               <button
                 key={c.id}
-                className="nb sg ch"
+                className="nb sg ch wt-category-btn"
+                aria-pressed={activecat === c.id && !showSaved}
                 onClick={() => {
                   setActivecat(c.id);
                   setShowSaved(false);
@@ -872,7 +975,7 @@ export default function WessTech({
                   rel="noopener noreferrer"
                 >
                   <div
-                    className="card"
+                    className="card wt-news-card"
                     style={{
                       padding: "18px 18px",
                       minHeight: 254,
@@ -923,6 +1026,8 @@ export default function WessTech({
                         )}
                         <button
                           className="nb"
+                          aria-label={isSaved ? `Remove ${n.title} from saved articles` : `Save ${n.title}`}
+                          aria-pressed={isSaved}
                           onClick={(e) => toggleSave(n.id, e)}
                           style={{
                             fontSize: 15,
@@ -959,6 +1064,7 @@ export default function WessTech({
                       {n.summary}
                     </p>
                     <div
+                      className="wt-card-meta"
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
@@ -1259,7 +1365,7 @@ export default function WessTech({
               >
                 Pages
               </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 14px" }}>
+              <div className="wt-footer-links" style={{ display: "flex", flexWrap: "wrap", gap: "8px 14px" }}>
               {[
                 { label: "Original Guides", url: "/articles" },
                 { label: "About WessTech", url: "/about" },
